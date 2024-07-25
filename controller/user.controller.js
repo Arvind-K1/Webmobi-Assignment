@@ -133,8 +133,30 @@ const getProfile = asyncHandler( async (req,res,_next) => {
     
 })
 
+const deleteUser = asyncHandler( async (req, res,next) => {
+
+
+    await models.User.destroy({where: {id: req.user.id}})
+        .then(result => {
+            res.status(200).json({
+                success: true,
+                message: "User deleted successfully",
+                
+        })
+        .catch(error => {
+            res.status(400).json({
+                success: false,
+                message: "User not found",
+                error: error
+            })
+        })
+    })
+
+  });
+
 module.exports = {
     register,
     login,
-    getProfile
+    getProfile,
+    deleteUser
 }
